@@ -2,42 +2,37 @@ package curso.api.rest.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import curso.api.rest.model.Usuario;
+import curso.api.rest.repository.UsuarioRepository;
 
 @RestController
 @RequestMapping(value = "/usuario")
 public class IndexController {
 
+	//CHAMANDO A CONTROLLE
+	@Autowired
+	private UsuarioRepository usuarioRepository;
+	
 	/*SERVIÇO RESTFULL*/
-	@GetMapping(value = "/", produces = "application/json")
-	public ResponseEntity<Usuario> init(){
+	@GetMapping(value = "/{id}", produces = "application/json")
+	public ResponseEntity<Usuario> init(@PathVariable(value  ="id")Long id){
 		
-		Usuario usuario = new Usuario();
-		usuario.setId(11L);
-		usuario.setLogin("arsantos315@gmail.com");
-		usuario.setNome("Anailson Ribeiro");
-		usuario.setSenha("3333");
+		//CHAMANDO POR ID OS DADOS
+		Optional<Usuario> usuario = usuarioRepository.findById(id);
 		
-		Usuario usuario2 = new Usuario();
-		usuario.setId(10L);
-		usuario.setLogin("teste@gmail.com");
-		usuario.setNome("Teste Sistema");
-		usuario.setSenha("1010");
+		return new ResponseEntity(usuario.get(),HttpStatus.OK);
 		
-		/*LISTAS PARA CHAMA OS OBJETOS*/
-		List<Usuario> usuarios = new ArrayList<Usuario>();
-		usuarios.add(usuario);
-		usuarios.add(usuario2);
-		
-		return new ResponseEntity(usuarios, HttpStatus.OK);
 	}
 	
 }
