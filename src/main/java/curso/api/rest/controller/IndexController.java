@@ -35,4 +35,14 @@ public class IndexController {
 		
 	}
 	
+	//LISTANDO TODOS OS ID'S
+	@GetMapping(value = "/", produces = "application/json")
+	public ResponseEntity<List<Usuario>> usuario(){
+		
+		List<Usuario> list = (List<Usuario>) usuarioRepository.findAll();
+		
+		return new ResponseEntity<List<Usuario>>(list, HttpStatus.OK);
+	}
+	
+	
 }
