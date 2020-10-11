@@ -24,61 +24,66 @@ import curso.api.rest.repository.UsuarioRepository;
 @RequestMapping(value = "/usuario")
 public class IndexController {
 
-	//CHAMANDO A CONTROLLE
+	// CHAMANDO A CONTROLLE
 	@Autowired
 	private UsuarioRepository usuarioRepository;
-	
-	/*SERVIÇO RESTFULL*/
+
+	/* SERVIÇO RESTFULL */
 	@GetMapping(value = "/{id}", produces = "application/json")
-	public ResponseEntity<Usuario> init(@PathVariable(value  ="id")Long id){
-		
-		//CHAMANDO POR ID OS DADOS
+	public ResponseEntity<Usuario> init(@PathVariable(value = "id") Long id) {
+
+		// CHAMANDO POR ID OS DADOS
 		Optional<Usuario> usuario = usuarioRepository.findById(id);
-		
-		return new ResponseEntity(usuario.get(),HttpStatus.OK);
-		
+
+		return new ResponseEntity(usuario.get(), HttpStatus.OK);
+
 	}
-	
-	//LISTANDO TODOS OS ID'S
+
+	// LISTANDO TODOS OS ID'S
 	@GetMapping(value = "/", produces = "application/json")
-	public ResponseEntity<List<Usuario>> usuario(){
-		
+	public ResponseEntity<List<Usuario>> usuario() {
+
 		List<Usuario> list = (List<Usuario>) usuarioRepository.findAll();
-		
+
 		return new ResponseEntity<List<Usuario>>(list, HttpStatus.OK);
 	}
-	
-	//SALVANDO OS DADOS CRIADO NO POSTMAN
+
+	// SALVANDO OS DADOS CRIADO NO POSTMAN
 	@PostMapping(value = "/", produces = "application/json")
-	public ResponseEntity<Usuario> cadastrar(@RequestBody Usuario usuario){
-		
-		//ASSOCIANDOD O OBJETO FILHO-TELEFONE AO PAI-USUARIO
+	public ResponseEntity<Usuario> cadastrar(@RequestBody Usuario usuario) {
+
+		// ASSOCIANDOD O OBJETO FILHO-TELEFONE AO PAI-USUARIO
 		for (int pos = 0; pos < usuario.getTelefones().size(); pos++) {
 			usuario.getTelefones().get(pos).setUsuario(usuario);
 		}
-		
+
 		Usuario usuarioSalvo = usuarioRepository.save(usuario);
-		
-		//GRAVAR NO BANCO DE DADOS O RETORNO 
+
+		// GRAVAR NO BANCO DE DADOS O RETORNO
 		return new ResponseEntity<Usuario>(usuarioSalvo, HttpStatus.OK);
-		
+
 	}
-	
-	//ATUALIZANDO OS DADOS CRIADOS NO POSTMAN
+
+	// ATUALIZANDO OS DADOS CRIADOS NO POSTMAN
 	@PutMapping(value = "/", produces = "application/json")
-	public ResponseEntity<Usuario> atualizar(@RequestBody Usuario usuario){
-		
+	public ResponseEntity<Usuario> atualizar(@RequestBody Usuario usuario) {
+
+		// ASSOCIANDOD O OBJETO FILHO-TELEFONE AO PAI-USUARIO
+		for (int pos = 0; pos < usuario.getTelefones().size(); pos++) {
+			usuario.getTelefones().get(pos).setUsuario(usuario);
+		}
+
 		Usuario usuarioSalvo = usuarioRepository.save(usuario);
-		
+
 		return new ResponseEntity<Usuario>(usuarioSalvo, HttpStatus.OK);
 	}
-	
-	//DELETE REGISTROS
-	@DeleteMapping(value = "/{id}" ,produces = "application/json")
+
+	// DELETE REGISTROS
+	@DeleteMapping(value = "/{id}", produces = "application/json")
 	public String delete(@PathVariable("id") Long id) {
-		
+
 		usuarioRepository.deleteById(id);
-		
+
 		return "Registro Deletado";
 	}
 }
