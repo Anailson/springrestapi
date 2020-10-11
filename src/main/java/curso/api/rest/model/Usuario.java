@@ -136,18 +136,18 @@ public class Usuario implements UserDetails {
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		
-		return null;
+		return roles;
 	}
 
 	@Override
 	public String getPassword() {
-		// TODO Auto-generated method stub
+		
 		return this.senha;
 	}
 
 	@Override
 	public String getUsername() {
-		// TODO Auto-generated method stub
+		
 		return this.login;
 	}
 
