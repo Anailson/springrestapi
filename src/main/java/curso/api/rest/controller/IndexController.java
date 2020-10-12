@@ -79,6 +79,15 @@ public class IndexController {
 		for (int pos = 0; pos < usuario.getTelefones().size(); pos++) {
 			usuario.getTelefones().get(pos).setUsuario(usuario);
 		}
+		//ATUALIZANDO A SENHA
+		Usuario userTemporario = usuarioRepository.findUserByLogin(usuario.getLogin());
+		
+		//SENHAS DIFERENTES
+		if(!userTemporario.getSenha().equals(usuario.getSenha())) {
+			//CRIPTOGRANDO A SENHA DOS USUARIOS AO SALVAR - CASO SEJA DIFERENTES AS SENHAS
+			String senhacriptografada = new BCryptPasswordEncoder().encode(usuario.getSenha());
+			usuario.setSenha(senhacriptografada);
+		}
 
 		Usuario usuarioSalvo = usuarioRepository.save(usuario);
 

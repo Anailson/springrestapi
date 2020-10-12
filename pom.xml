@@ -88,6 +88,13 @@
 			<version>0.7.0</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/com.zaxxer/HikariCP -->
+		<dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+			<version>3.3.1</version>
+		</dependency>
+
 
 	</dependencies>
 
