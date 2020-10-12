@@ -70,8 +70,18 @@ public class Usuario implements UserDetails {
 	value = ConstraintMode.CONSTRAINT)))
 	private List<Role> roles; //OS PAPEIS DE ACESSOS
 	
-	
+	//ATRIBUTO PARA AUTENTICAÇÃO DO TOKEN NO BANCO - É A AUTORIZAÇÃO FEITA PELO O POSTMAN - Authorization": "Bearer
+	private String token = "";
 		
+		
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
 	public List<Telefone> getTelefones() {
 		return telefones;
 	}
