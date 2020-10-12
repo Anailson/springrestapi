@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import curso.api.rest.model.Usuario;
+import curso.api.rest.model.UsuarioDTO;
 import curso.api.rest.repository.UsuarioRepository;
 
 @RestController
@@ -31,12 +32,14 @@ public class IndexController {
 
 	/* SERVIÇO RESTFULL */
 	@GetMapping(value = "/{id}", produces = "application/json")
-	public ResponseEntity<Usuario> init(@PathVariable(value = "id") Long id) {
+	public ResponseEntity<UsuarioDTO> init(@PathVariable(value = "id") Long id) {
 
 		// CHAMANDO POR ID OS DADOS
 		Optional<Usuario> usuario = usuarioRepository.findById(id);
 
-		return new ResponseEntity(usuario.get(), HttpStatus.OK);
+		//USANDO A CLASSE DTO - OCULTA OS NOMES REAIS DO ATRIBUTOS NO BANCO
+		//EXEMPLO: nome sera userNome
+		return new ResponseEntity<UsuarioDTO>(new UsuarioDTO(usuario.get()),HttpStatus.OK);
 		
 		
 
