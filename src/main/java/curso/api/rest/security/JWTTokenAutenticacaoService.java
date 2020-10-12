@@ -21,8 +21,10 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Component
 public class JWTTokenAutenticacaoService {
 	
-	// Tempo de validade do TOKEN - 10 dias - pode ser alterado
-		private static final long EXPIRATION_TIME = 864000;
+	// Tempo de validade do TOKEN - 30 dias - pode ser alterado - milissegundos
+	//http://extraconversion.com/pt/tempo/meses/meses-para-milissegundos.html 
+	//TRECHO DE EXPIRAÇÃO É DO TOKEN O QUE É GERADO NO POSTMAN
+		private static final long EXPIRATION_TIME = 259200000;
 		
 		// Senha única para compor a autenticação e ajudar na segurança
 		private static final String SECRET = "SenhaExtremamenteSecreta";
@@ -59,8 +61,10 @@ public class JWTTokenAutenticacaoService {
 			// Pega o token enviado no cabeçalho Http
 			String token = request.getHeader(HEADER_STRING);
 			
-			if (token != null) {			
-				// Faz validação do Token do usuário na requisição
+			try {
+			if (token != null) {	//INICIO DA CODIÇÃO TOKEN DIFERENTE DE NULL
+				
+				//FAZ A VALIDAÇÃO DO TOKEN DO USUARIO NA REQUISIÃO
 				String user = Jwts.parser()
 						.setSigningKey(SECRET)
 						.parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
@@ -80,7 +84,14 @@ public class JWTTokenAutenticacaoService {
 								usuario.getAuthorities()); //A AREAS DO SISTEMA EX : ADM, RH ETC
 					}
 				}
-			}	
+			}	//FIM DA CONDIÇÃO TOKEN !=NULL
+			}catch (io.jsonwebtoken.ExpiredJwtException e) {
+				try {
+					response.getOutputStream().println("Seu TOKEN está expirado, faça o login ou informe um novo token para a autenticação ");
+				}catch (IOException el) {
+					
+				}
+			}
 			liberarCORS(response);
 			return null;
 		}
