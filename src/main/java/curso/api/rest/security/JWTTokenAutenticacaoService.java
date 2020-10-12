@@ -34,6 +34,8 @@ public class JWTTokenAutenticacaoService {
 		
 		private static final String HEADER_STRING = "Authorization";
 		
+		
+		
 		// Gerando token de autenticação e adicionando ao cabeçalho e resposta Http
 		public void addAuthentication(HttpServletResponse response, String username) throws IOException {
 			
@@ -45,9 +47,16 @@ public class JWTTokenAutenticacaoService {
 					.compact(); // compactação String
 			
 			String token = TOKEN_PREFIX + " " + JWT; // Bearer 3498hih345jkh345ui53iu5hyi
+		
 			
 			// adiciona token no cabeçalho http
 			response.addHeader(HEADER_STRING, token); // Authorization: Bearer 3498hih345jkh345ui53iu5hyi
+		
+			//ATUALIZANDO O TOKEN EM NOVO LOGIN
+			ApplicationContextLoad.getApplicationContext()
+			.getBean(UsuarioRepository.class).atualizaTokenUser(JWT, username);
+			
+			
 			
 			liberarCORS(response);
 			
