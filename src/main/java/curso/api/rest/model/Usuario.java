@@ -39,6 +39,8 @@ public class Usuario implements UserDetails {
 	
 	private String nome;
 	
+	private String cpf;
+	
 	//APOS CRIAR O RELACIONAMENTO DE MUITOS PARA 1 E CHAMAR A LISTA NA CLASSE PAI
 	//1 USUARIO TEM VARIOS TELEFONES
 	@OneToMany(mappedBy = "usuario", orphanRemoval = true, cascade = CascadeType.ALL)
@@ -120,6 +122,16 @@ public class Usuario implements UserDetails {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+	
+	
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 
 	@Override
